@@ -5,11 +5,11 @@ using System;
 
 public class Manager : MonoBehaviour
 {
-    public static float activeTime = 0.35f;
+    public static float activeTime = 0.35f; //how long the button lights up when pressed, used in button
     
-    Button[] buttons; //цветные кнопочки для нажатия
+    Button[] buttons; //game buttons
 
-    Dictionary<string, int> buttonDict = new Dictionary<string, int>(); //словарь для записи нажатий(событий) в мелодию
+    Dictionary<string, int> buttonDict = new Dictionary<string, int>(); //mapping ints to buttons as "notes"
     Melody tune = new Melody(3);
     int i = 0;
 
@@ -18,12 +18,14 @@ public class Manager : MonoBehaviour
 
     private void Start()
     {
-
+       //get all buttons
         buttons = this.transform.GetComponentsInChildren<Button>();
-
+        
         foreach(Button button in buttons)
         {
-            button.OnButtonPush += ListenerOnButtonPush; //подписываемся на события нажатия
+            //sub to push event
+            button.OnButtonPush += ListenerOnButtonPush;
+            //map buttons to int, ints are later used to access them through .GetChild
             buttonDict.Add(button.ToString(), i++);
         }
         
