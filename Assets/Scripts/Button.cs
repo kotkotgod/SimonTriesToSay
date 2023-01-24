@@ -6,8 +6,21 @@ public class Button : MonoBehaviour
     SpriteRenderer spriteRenderer;
     AudioSource audioSource;
     BoxCollider2D boxCollider;
-    float lightOnTime; //время подсвета кнопки и блокировки повторного нажатия
+
     Color lightOnColor, lightOffColor;
+    float activeTime; //button lights up for that long, getting from Manager
+    public float ActiveTime
+    {
+        get 
+        {
+            return activeTime;
+        }
+        set
+        {
+            activeTime = value;
+        }
+    }  
+
 
     public event EventHandler OnButtonPush;
 
@@ -18,33 +31,31 @@ public class Button : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
 
 
-        lightOnTime = Manager.activeTime;
-
         lightOnColor = spriteRenderer.color;
         lightOffColor = spriteRenderer.color;
         lightOffColor.a = 0.6f;
         spriteRenderer.color = lightOffColor;
-        
+
     }
 
     void OnMouseDown()
     {
-        //если не нажимали последние activeTime секунд
         PushTheButton();
-        OnButtonPush?.Invoke(this,EventArgs.Empty);
+        OnButtonPush?.Invoke(this, EventArgs.Empty);
     }
 
     public void PushTheButton()
     {
         LightOn();
-        //вызвать LightOff через activeTime секунд
-        Invoke("LightOff", lightOnTime);
+        //call LightOff() in activeTime seconds
+        Invoke("LightOff", activeTime);
     }
 
     void LightOn()
     {
         spriteRenderer.color = lightOnColor;
         audioSource.Play();
+        //blocking player input for a moment
         SwitchCollider(false);
     }
 
@@ -54,6 +65,7 @@ public class Button : MonoBehaviour
         SwitchCollider(true);
     }
 
+    //collider works with OnMouseButton so turning it on/off helps blocking extra clicks
     public void SwitchCollider(bool b)
     {
         boxCollider.enabled = b;

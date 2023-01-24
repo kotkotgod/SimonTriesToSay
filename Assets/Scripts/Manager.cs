@@ -5,7 +5,7 @@ using System;
 
 public class Manager : MonoBehaviour
 {
-    public static float activeTime = 0.35f; //how long the button lights up when pressed, used in button
+    public float activeTime = 0.35f; //how long the button lights up when pressed, used in button
     
     Button[] buttons; //game buttons
 
@@ -27,6 +27,7 @@ public class Manager : MonoBehaviour
             button.OnButtonPush += ListenerOnButtonPush;
             //map buttons to int, ints are later used to access them through .GetChild
             buttonDict.Add(button.ToString(), i++);
+            button.activeTime = activeTime;
         }
         
     }
