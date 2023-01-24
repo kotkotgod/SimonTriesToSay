@@ -7,9 +7,11 @@ It's a project for me to test out .Net and Unity basics.
 
 TODO:
 - Game logic
-  * Play the melody
-  * Check player's input
-  * Start new round
+(done)  * Play the melody
+(done)  * Check player's input
+(done)  * Start new round
+  
+  * Notify when player loses and new round starts
 
 - UI
   * Score
