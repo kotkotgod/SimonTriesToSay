@@ -1,16 +1,13 @@
 # SimonTriesToSay
 Simple Simon Says game in Unity 
 
-Currently not working
+Currently somewhat working
 
-It's a project for me to test out .Net and Unity basics.
+It's a project for me to learn .Net and Unity basics.
 
 TODO:
-- Game logic
-	*  done  Play the melody
-	*  done  Check player's input
-	*  done  Start new round
-  
+
+- Game logic  
   * Notify when player loses and new round starts
 
 - UI
