@@ -56,13 +56,11 @@ public class Button : MonoBehaviour
         spriteRenderer.color = lightOnColor;
         audioSource.Play();
         //blocking player input for a moment
-        SwitchCollider(false);
     }
 
     void LightOff()
     {
         spriteRenderer.color = lightOffColor;
-        SwitchCollider(true);
     }
 
     //collider works with OnMouseButton so turning it on/off helps blocking extra clicks
