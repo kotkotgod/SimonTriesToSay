@@ -8,18 +8,8 @@ public class Button : MonoBehaviour
     BoxCollider2D boxCollider;
 
     Color lightOnColor, lightOffColor;
-    float activeTime; //button lights up for that long, getting from Manager
-    public float ActiveTime
-    {
-        get 
-        {
-            return activeTime;
-        }
-        set
-        {
-            activeTime = value;
-        }
-    }  
+    
+    public float ActiveTime { get; set; } //button lights up for that long, getting from Manager
 
 
     public event EventHandler OnButtonPush;
@@ -38,6 +28,8 @@ public class Button : MonoBehaviour
 
     }
 
+
+    //
     void OnMouseDown()
     {
         PushTheButton();
@@ -47,15 +39,14 @@ public class Button : MonoBehaviour
     public void PushTheButton()
     {
         LightOn();
-        //call LightOff() in activeTime seconds
-        Invoke("LightOff", activeTime);
+        //call LightOff() in ActiveTime seconds
+        Invoke("LightOff", ActiveTime);
     }
 
     void LightOn()
     {
         spriteRenderer.color = lightOnColor;
         audioSource.Play();
-        //blocking player input for a moment
     }
 
     void LightOff()
@@ -63,7 +54,7 @@ public class Button : MonoBehaviour
         spriteRenderer.color = lightOffColor;
     }
 
-    //collider works with OnMouseButton so turning it on/off helps blocking extra clicks
+    //using this to block buttons in manager when current sequence is playing 
     public void SwitchCollider(bool b)
     {
         boxCollider.enabled = b;

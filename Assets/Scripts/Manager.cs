@@ -32,11 +32,10 @@ public class Manager : MonoBehaviour
         }
         numberOfButtons = buttonDict.Count;
         Reset();
-        StartRound();
     }
 
 
-    void StartRound()
+    public void StartRound()
     {
         melody.Add(UnityEngine.Random.Range(0, numberOfButtons));
         StartCoroutine(PlayMelody());
