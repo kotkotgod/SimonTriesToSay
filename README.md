@@ -3,13 +3,11 @@ Simple Simon Says game in Unity
 
 Currently somewhat working
 
-It's a project for me to learn .Net and Unity basics.
+It's my first project to learn .Net and Unity basics.
 
 TODO:
 
-- Game logic  
-  * Notify when player loses and new round starts
-
 - UI
-  * Score
+  * Current score
+  * Max score
   * Start/Restart button
