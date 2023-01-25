@@ -5,17 +5,15 @@ using System;
 public class Manager : MonoBehaviour
 {
     public float activeTime = 0.35f; //how long the button lights up when pressed, used in button
-    
+    public float pauseTime = 0.1f; //pause between notes during playing sequence
     Button[] buttons; //game buttons
-
     Dictionary<string, int> buttonDict = new Dictionary<string, int>(); //mapping ints to buttons as "notes"
-    
-    
-
-    int currentNote;
-    int currentStreak;
     List<int> melody;
     int numberOfButtons;
+    int currentNote;
+    int currentStreak;
+
+
     private void Start()
     {
        //get all buttons
@@ -31,63 +29,70 @@ public class Manager : MonoBehaviour
             
         }
         numberOfButtons = buttonDict.Count;
-        Reset();
     }
 
-
-    public void StartRound()
+    public void StartGame()
     {
+        Reset();
+        StartRound();
+    }
+
+    //round starts with adding an extra note and playing the whole sequence
+    void StartRound()
+    {
+        
         melody.Add(UnityEngine.Random.Range(0, numberOfButtons));
         StartCoroutine(PlayMelody());
-
     }
 
-        private void Reset()
+    
+    void Reset()
     {
         melody = new List<int>();
         currentNote = 0;
+        currentStreak = 0;
     }
+
     bool CheckNote(int n)
     {
         return melody[currentNote] == n;
     }
 
-
+    //checking mapped ints from buttons with current sequence "note" 
     void ListenerOnButtonPush(object sender, EventArgs e)
     {
+        // if wrong note
         if (!CheckNote(buttonDict[sender.ToString()]))
         {
             Reset();
             StartRound();
-        } else if(++currentNote == melody.Count)
+        } else if(++currentNote == melody.Count) //if the sequence is done
         {
+            currentStreak++;
             currentNote = 0;
             StartRound();
-            
         }
     }
-
+    
     IEnumerator PlayMelody()
     {
-        foreach(Button button in buttons)
-        {
+        //disabling player input on game buttons while sequence plays
+        foreach(Button button in buttons) 
             button.SwitchCollider(false);
-        }
-       
-        yield return new WaitForSeconds(activeTime + 1);
+        
+        //small pause before sequence starts
+        yield return new WaitForSeconds(activeTime + 0.5f);
+        
+        //activating buttons in the saved sequence with a small pause between them
         foreach (int i in melody)
         {
-            
             buttons[i].PushTheButton();
-            yield return new WaitForSeconds(activeTime + 0.1f);
+            yield return new WaitForSeconds(activeTime + pauseTime);
         }  
-            
         
-
+        //reactivating game buttons
         foreach (Button button in buttons)
-        {
             button.SwitchCollider(true);
-        }
     }
     
 }
