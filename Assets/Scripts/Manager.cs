@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+
 public class Manager : MonoBehaviour
 {
     public float activeTime = 0.35f; //how long the button lights up when pressed, used in button

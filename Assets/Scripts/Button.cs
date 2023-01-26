@@ -6,9 +6,10 @@ public class Button : MonoBehaviour
     SpriteRenderer spriteRenderer;
     AudioSource audioSource;
     BoxCollider2D boxCollider;
-
+    int keepActive = 0; //number of currently unresolved with LightOff() button presses
+    float volume;
     Color lightOnColor, lightOffColor;
-    
+
     public float ActiveTime { get; set; } //button lights up for that long, getting from Manager
 
 
@@ -39,19 +40,24 @@ public class Button : MonoBehaviour
     public void PushTheButton()
     {
         LightOn();
+        keepActive++;
         //call LightOff() in ActiveTime seconds
         Invoke("LightOff", ActiveTime);
     }
 
     void LightOn()
     {
-        spriteRenderer.color = lightOnColor;
         audioSource.Play();
+        spriteRenderer.color = lightOnColor;
     }
 
     void LightOff()
     {
-        spriteRenderer.color = lightOffColor;
+        //Only turn off the light when the last press is resolved. It can happen when the player quickly presses the same button several times
+        if (--keepActive == 0)
+        {
+            spriteRenderer.color = lightOffColor;
+        }
     }
 
     //using this to block buttons in manager when current sequence is playing 
@@ -59,5 +65,6 @@ public class Button : MonoBehaviour
     {
         boxCollider.enabled = b;
     }
-
 }
+
+
