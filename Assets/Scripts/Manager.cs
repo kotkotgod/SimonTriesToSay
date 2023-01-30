@@ -9,16 +9,16 @@ public class Manager : MonoBehaviour
     public float pauseTime = 0.1f; //pause between notes during playing sequence
     Button[] buttons; //game buttons
     Dictionary<string, int> buttonDict = new Dictionary<string, int>(); //mapping ints to buttons as "notes"
-    List<int> melody;
+    List<int> melody = new List<int>();
     List<int> allButtons = new List<int>();
     int numberOfButtons;
     int currentNote;
     int currentStreak;
-
+    public UIManager UIM;
 
     private void Start()
     {
-       //get all buttons
+        //get all buttons
         buttons = this.transform.GetComponentsInChildren<Button>();
         int i = 0;
         foreach (Button button in buttons)
@@ -45,6 +45,7 @@ public class Manager : MonoBehaviour
     //round starts with adding an extra note and playing the whole sequence
     void StartRound()
     {
+        UIM.Current(currentStreak);
         melody.Add(UnityEngine.Random.Range(0, numberOfButtons));
         StartCoroutine(PlayMelody(melody, activeTime + pauseTime, 1f));
     }
@@ -52,7 +53,7 @@ public class Manager : MonoBehaviour
     
     void Reset()
     {
-        melody = new List<int>();
+        melody.Clear();
         currentNote = 0;
         currentStreak = 0;
     }
